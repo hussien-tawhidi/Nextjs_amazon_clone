@@ -1,12 +1,15 @@
 "use client";
 
 import useCartService from "@/hooks/useCartStore";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const CartDetails = () => {
+  const { data: session } = useSession();
+  console.log(session?.user?.name);
   const router = useRouter();
   const { items, itemsPrice, decrease, increase } = useCartService();
 
@@ -57,14 +60,14 @@ const CartDetails = () => {
                         className='btn'
                         type='button'
                         onClick={() => increase(item)}>
-                       +
+                        +
                       </button>
                       <span className='px-2'>{item.qty}</span>
                       <button
                         className='btn'
                         type='button'
                         onClick={() => decrease(item)}>
-                       -
+                        -
                       </button>
                     </td>
                     <td>${item.price}</td>
@@ -83,11 +86,19 @@ const CartDetails = () => {
                   </div>
                 </li>
                 <li>
-                  <button
-                    onClick={() => router.push("/shipping")}
-                    className='btn btn-primary w-full'>
-                    Procced to Checkout
-                  </button>
+                  {session ? (
+                    <button
+                      onClick={() => router.push("/shipping")}
+                      className='btn btn-primary w-full'>
+                      Procced to Checkout
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => router.push("/cart")}
+                      className='btn btn-primary w-full'>
+                      Login to continue shipping
+                    </button>
+                  )}
                 </li>
               </ul>
             </div>

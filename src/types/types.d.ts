@@ -1,3 +1,5 @@
+import { ValidationRule } from "react-hook-form";
+
 export type Product = {
   _id?: string;
   name: string;
@@ -25,10 +27,28 @@ export type OrderItem = {
   size?: string;
 };
 
+export type ShippingAddress = {
+  fullName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  errors?:any
+};
+
 export type Cart = {
   items: OrderItem[];
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;
+  paymentMethod: string;
+  shippingAddress: ShippingAddress;
+};
+
+export type InputTypes = {
+  id: typeof ShippingAddress;
+  name: string;
+  required?: boolean;
+  pattern?: ValidationRule<RegExp>;
 };

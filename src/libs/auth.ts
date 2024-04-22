@@ -32,19 +32,19 @@ export const authOptions: NextAuthOptions = {
     error: "/signin",
   },
   callbacks: {
-    // authorized({ request, auth }: any) {
-    //   const protectedPath = [
-    //     /\/shipping/,
-    //     /\/payment/,
-    //     /\/place-order/,
-    //     /\/profile/,
-    //     /\/order\/(.*)/,
-    //     /\/admin/,
-    //   ];
-    //   const { pathname } = request.nextUrl;
-    //   if (protectedPath.some((p) => p.test(pathname))) return !!auth;
-    //   return true;
-    // },
+    authorized({ request, auth }: any) {
+      const protectedPath = [
+        /\/shipping/,
+        /\/payment/,
+        /\/place-order/,
+        /\/profile/,
+        /\/order\/(.*)/,
+        /\/admin/,
+      ];
+      const { pathname } = request.nextUrl;
+      if (protectedPath.some((p) => p.test(pathname))) return !!auth;
+      return true;
+    },
     async jwt({ user, trigger, session, token }: any) {
       if (user) {
         token.user = {

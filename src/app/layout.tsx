@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
 import  { Provider } from "@/provider/Providers";
-
+import  { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,6 +22,7 @@ export default function RootLayout({
         <Provider>
           <div className='min-h-screen flex flex-col'>
             <Header />
+            <Toaster/>
             {children}
             <footer className='footer footer-center p-4 bg-base-300 text-base-content'>
               <p>Copyright 2024 - all reserved by Next Amazona</p>
