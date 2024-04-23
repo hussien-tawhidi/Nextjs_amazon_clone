@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header/Header";
-import  { Provider } from "@/provider/Providers";
-import  { Toaster } from "react-hot-toast";
+import { Provider } from "@/provider/Providers";
+import { Toaster } from "react-hot-toast";
+import SwrProvider from "@/provider/SwrProvider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,14 +22,16 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <Provider>
-          <div className='min-h-screen flex flex-col'>
-            <Header />
-            <Toaster/>
-            {children}
-            <footer className='footer footer-center p-4 bg-base-300 text-base-content'>
-              <p>Copyright 2024 - all reserved by Next Amazona</p>
-            </footer>
-          </div>
+          <SwrProvider>
+            <div className='min-h-screen flex flex-col'>
+              <Header />
+              <Toaster />
+              {children}
+              <footer className='footer footer-center p-4 bg-base-300 text-base-content'>
+                <p>Copyright 2024 - all reserved by Next Amazona</p>
+              </footer>
+            </div>
+          </SwrProvider>
         </Provider>
       </body>
     </html>

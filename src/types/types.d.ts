@@ -22,7 +22,7 @@ export type OrderItem = {
   slug?: string;
   qty: number;
   image: string;
-  price?: number;
+  price: number;
   color?: string;
   size?: string;
 };
@@ -33,7 +33,7 @@ export type ShippingAddress = {
   city: string;
   postalCode: string;
   country: string;
-  errors?:any
+  errors?: any;
 };
 
 export type Cart = {
@@ -51,4 +51,28 @@ export type InputTypes = {
   name: string;
   required?: boolean;
   pattern?: ValidationRule<RegExp>;
+};
+
+export type Order = {
+  _id: string;
+  user?: { name: string };
+  itmes: { OrderItem };
+  shippingAddress: {
+    fullName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
+  paymentMethods: string;
+  paymentResult?: { id: string; status: string; email_address: string };
+  itemsPrice: number;
+  shippingPrice: number;
+  taxPrice: number;
+  totalPrice: number;
+  isPaid: Boolean;
+  isDelivered: Boolean;
+  paidAt?: string;
+  deliveredAt?: string;
+  createdAt?: string;
 };

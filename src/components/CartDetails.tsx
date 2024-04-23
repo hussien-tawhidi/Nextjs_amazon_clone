@@ -93,11 +93,11 @@ const CartDetails = () => {
                       Procced to Checkout
                     </button>
                   ) : (
-                    <button
-                      onClick={() => router.push("/cart")}
+                    <Link href="/cart"
+                  
                       className='btn btn-primary w-full'>
                       Login to continue shipping
-                    </button>
+                    </Link>
                   )}
                 </li>
               </ul>
