@@ -2,6 +2,8 @@ import { cache } from "react";
 import { dbConnect } from "../dbConnect";
 import ProductModel from "@/models/ProductModel";
 import { Product } from "@/types/types";
+import OrderModel from "@/models/OrderModel";
+import { auth } from "../auth";
 
 const getLates = cache(async () => {
   await dbConnect();
@@ -19,7 +21,6 @@ const getFeatured = cache(async () => {
   const products = await ProductModel.find({ isFeatured: true })
     .limit(3)
     .lean();
-
   return products as Product[];
 });
 
@@ -29,4 +30,13 @@ const getBySlug = cache(async (slug: string) => {
   return product as Product;
 });
 
-export const productServices = { getLates, getBySlug, getFeatured };
+const getOrder = cache(async () => {
+  const session = await auth()
+  const userId = session?.user?.id;
+  await dbConnect();
+  // await User.findById(req.user._id).forEach(element =>{Product.find(user=element._id)}); 
+  const order = await OrderModel.find()
+  return order
+})
+
+export const productServices = { getLates, getBySlug, getFeatured, getOrder };

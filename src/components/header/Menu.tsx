@@ -4,8 +4,10 @@ import useCartService from "@/hooks/useCartStore";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Menu = () => {
+  const router=useRouter()
   const { items } = useCartService();
   const [mount, setMounted] = useState(false);
   const { data: session } = useSession();
@@ -39,6 +41,11 @@ const Menu = () => {
                 <FaAngleDown />
               </label>
               <ul className='menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded'>
+                <li>
+                  <button type='button' onClick={()=>router.push(`/profile/${session?.user?._id}`)}>
+                    Profile
+                  </button>
+                </li>
                 <li>
                   <button type='button' onClick={signoutHandler}>
                     Sign out

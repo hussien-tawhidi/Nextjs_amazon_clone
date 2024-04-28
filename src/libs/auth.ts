@@ -1,10 +1,10 @@
-import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { dbConnect } from "./dbConnect";
 import UserModel from "@/models/UserModel";
+import NextAuth from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
     CredentialsProvider({
       credentials: {
@@ -26,6 +26,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/signin",
     newUser: "/resgister",
@@ -63,13 +64,13 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-   
+
     session: async ({ session, token }: any) => {
       if (token) {
         session.user = token.user;
-        session.userId = token.user.id;  
+        session.userId = token.user.id;
       }
       return session;
     },
   },
-};
+});

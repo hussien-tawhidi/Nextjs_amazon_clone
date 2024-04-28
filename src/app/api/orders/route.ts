@@ -1,9 +1,9 @@
+import { auth } from "@/libs/auth";
 import { dbConnect } from "@/libs/dbConnect";
 import { round2 } from "@/libs/utils";
 import OrderModel from "@/models/OrderModel";
 import ProductModel from "@/models/ProductModel";
 import { OrderItem } from "@/types/types";
-import { NextResponse } from "next/server";
 
 const calcPrice = (orderItems: OrderItem[]) => {
   const itemsPrice = round2(
@@ -15,8 +15,9 @@ const calcPrice = (orderItems: OrderItem[]) => {
   return { itemsPrice, shippingPrice, totalPrice, taxPrice };
 };
 
-export const POST = async (req: any) => {
-
+export const POST = auth(async (req: any) => {
+  const session = await auth();
+  const user = session?.user;
   try {
     const payload = await req.json();
     await dbConnect();
@@ -47,12 +48,13 @@ export const POST = async (req: any) => {
       totalPrice,
       shippingAddress: payload.shippingAddress,
       paymentMethod: payload.paymentMethod,
-      // user:user._id
+      // @ts-ignore
+      user: user?._id,
       // user,
     });
 
     const createOrder = await newOrder.save();
-    return NextResponse.json(
+    return Response.json(
       {
         message: "Order has been created",
         order: createOrder,
@@ -60,6 +62,7 @@ export const POST = async (req: any) => {
       { status: 200 }
     );
   } catch (error: any) {
+    console.log(error);
     return Response.json(
       {
         message: "Something went wrong in CREATING Order",
@@ -68,4 +71,4 @@ export const POST = async (req: any) => {
       { status: 500 }
     );
   }
-};
+});

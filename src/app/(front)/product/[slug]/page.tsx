@@ -1,5 +1,4 @@
 // "use client"
-import data from "../../../../../data";
 import Link from "next/link";
 import Image from "next/image";
 import AddToCart from "@/components/product/AddToCart";

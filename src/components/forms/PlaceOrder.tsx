@@ -25,7 +25,7 @@ const PlaceOrder = () => {
   } = useCartService();
 
   const { trigger: placeOrder, isMutating: isPlacing } = useSWRMutation(
-    "/api/placeOrder/mine",
+    "/api/orders/mine",
     async (url) => {
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -44,13 +44,14 @@ const PlaceOrder = () => {
       if (res.ok) {
         clear();
         toast.success("Order successfully added");
-        return router.push(`/order/${data.order._id}`);
+        return router.push(`/order/${data?.order?.id}`);
+        // `/api/orders/${orderId}`;
       } else {
         toast.error(data.message);
       }
     }
   );
-
+console.log("new")
   useEffect(() => {
     if (!paymentMethod) {
       return router.push("/payment");
